@@ -2,6 +2,9 @@
   "name": "processo_seletivo_analista_de_dados_big_corp_data",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
   "repository": "https://github.com/dhionathan01/processo_seletivo_analista_de_dados_big_corp_data.git",
   "author": "Dhionathan lanzoni Jobim <dhionathan01@hotmail.com>",
   "license": "MIT"
