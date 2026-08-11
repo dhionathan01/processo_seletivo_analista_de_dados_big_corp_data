@@ -1,9 +1,9 @@
 # Dependências
 node_modules/
 
-# Saída gerada pelo pipeline
-clubs.csv
-players.csv
+# Saída gerada pelo pipeline.
+# clubs.csv e players.csv NÃO são ignorados: o enunciado pede os dois arquivos
+# gerados a partir de sample_clubes.jsonl como parte da entrega.
 output/
 
 # Logs
