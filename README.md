@@ -44,6 +44,11 @@ O caminho de entrada é **obrigatório**. O diretório de saída é opcional e
 assume a raiz do projeto por padrão — os arquivos `clubs.csv` e `players.csv`
 são criados (ou sobrescritos) nele.
 
+Os arquivos [`clubs.csv`](clubs.csv) e [`players.csv`](players.csv) versionados
+na raiz do repositório são a saída gerada a partir de
+[`data/sample_clubes.jsonl`](data/sample_clubes.jsonl), conforme pedido no
+enunciado.
+
 ### Saída no terminal
 
 ```
@@ -214,6 +219,13 @@ Além da suíte, os CSVs gerados foram relidos por um parser externo
 internas permanecem íntegros. A refatoração em camadas foi validada por
 comparação da saída de quatro cenários antes e depois — idênticas, incluindo os
 códigos de saída.
+
+## Uso de assistente de IA
+
+O desenvolvimento foi conduzido com apoio de um assistente de código, de forma
+iterativa e etapa por etapa. Os prompts utilizados estão registrados em
+[`docs/prompts.md`](docs/prompts.md), com as decisões de projeto que foram
+tomadas em cada ponto de bifurcação.
 
 ## Fluxo de trabalho
 
