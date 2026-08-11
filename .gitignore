@@ -1,0 +1,21 @@
+# Dependências
+node_modules/
+
+# Saída gerada pelo pipeline
+clubs.csv
+players.csv
+output/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ambiente
+.env
+.env.local
+
+# Sistema operacional
+Thumbs.db
+.DS_Store

@@ -27,3 +27,6 @@ Os nomes das colunas nos CSVs diferem das chaves do JSON e devem ser gerados EXA
 ## MÉTODO DE TRABALHO (LEIA COM ATENÇÃO):
 Nós vamos desenvolver essa solução de forma iterativa, aplicando **Git Flow**. 
 **NÃO ESCREVA A SOLUÇÃO INTEIRA.** Eu vou te pedir a implementação etapa por etapa (ex: Setup inicial, depois Leitura, depois Filtros, etc). Forneça o código apenas da etapa solicitada no momento.
+
+## DOCUMENTAÇÃO
+Registre em um documento as adr definidas, com quando, porque e como.
