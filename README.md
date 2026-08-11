@@ -188,19 +188,32 @@ torna caras de descobrir em produção:
 
 ---
 
-## Verificação
+## Testes
 
-O comportamento foi conferido contra o arquivo de amostra e contra fixtures
-sintéticos cobrindo: linhas malformadas, JSON truncado, escalares no lugar de
-objetos, datas impossíveis e bissextas, cores nulas/vazias/não-array,
-campeonatos com acento e caixa variada, jogadores com campos zerados e arrays
-de jogadores contendo lixo.
+```bash
+yarn test
+```
 
-Os CSVs gerados foram relidos por um parser externo (round-trip), confirmando
-que registros com vírgula, aspas e quebra de linha internas permanecem íntegros.
+47 casos com o runner nativo do Node (`node:test`), sem dependência de
+desenvolvimento. A suíte cobre:
 
-A refatoração em camadas foi validada por comparação da saída de quatro
-cenários antes e depois — idênticas, incluindo os códigos de saída.
+| Arquivo | Cobertura |
+| --- | --- |
+| `test/fields.test.js` | nulos, zero preservado, valores não escalares, datas ISO, calendário, bissexto, fuso horário, cores |
+| `test/rows.test.js` | filtro de campeonato, canonicalização, ordem e nomes das colunas, montagem das linhas, chave estrangeira |
+| `test/jsonl-reader.test.js` | continuidade após linha malformada, escalares, linhas em branco, CRLF, numeração de linha |
+| `test/csv-writer.test.js` | CRLF, ausência de BOM, escape de vírgula/aspas/quebra de linha, ordem das colunas, acentuação |
+
+Os casos foram escritos a partir dos defeitos reais encontrados durante o
+desenvolvimento, não como cobertura decorativa. O teste
+`delimita campo com quebra de linha isolada` é regressão do bug de escape do
+`csv-stringify`: removendo o `quoted_match`, ele falha.
+
+Além da suíte, os CSVs gerados foram relidos por um parser externo
+(round-trip), confirmando que registros com vírgula, aspas e quebra de linha
+internas permanecem íntegros. A refatoração em camadas foi validada por
+comparação da saída de quatro cenários antes e depois — idênticas, incluindo os
+códigos de saída.
 
 ## Fluxo de trabalho
 
