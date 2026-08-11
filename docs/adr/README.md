@@ -23,3 +23,4 @@ implementada, para que a linha de raciocínio sobreviva ao código.
 | [0005](0005-filtro-de-campeonato-tolerante-com-saida-canonica.md) | Filtro de campeonato tolerante na entrada, canônico na saída | Aceita | 2026-08-11 |
 | [0006](0006-regras-de-formatacao-de-campos.md) | Regras de formatação de campos: nulos, datas e cores | Aceita | 2026-08-11 |
 | [0007](0007-separacao-em-camadas-de-responsabilidade.md) | Separação do pipeline em camadas de responsabilidade | Aceita | 2026-08-11 |
+| [0008](0008-escrita-csv-com-csv-stringify.md) | Escrita dos CSVs com `csv-stringify` em modo stream | Aceita | 2026-08-11 |
