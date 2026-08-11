@@ -18,3 +18,5 @@ implementada, para que a linha de raciocínio sobreviva ao código.
 | --- | --- | --- | --- |
 | [0001](0001-entrada-parametrizada-via-cli.md) | Entrada parametrizada via CLI com validação fail-fast | Aceita | 2026-08-11 |
 | [0002](0002-commonjs-como-sistema-de-modulos.md) | CommonJS como sistema de módulos | Aceita | 2026-08-11 |
+| [0003](0003-leitura-por-streaming-linha-a-linha.md) | Leitura por streaming linha a linha com descarte tolerante | Aceita | 2026-08-11 |
+| [0004](0004-pipeline-nao-normaliza-arquivo-de-entrada.md) | O pipeline não normaliza nem copia o arquivo de entrada | Aceita | 2026-08-11 |
