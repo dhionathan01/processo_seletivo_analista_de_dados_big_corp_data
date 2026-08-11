@@ -2,6 +2,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const readline = require('node:readline');
 
 /**
  * Lê o caminho do arquivo JSONL recebido por parâmetro de linha de comando
@@ -36,11 +37,66 @@ function resolveInputPath() {
   return inputPath;
 }
 
-function main() {
-  const inputPath = resolveInputPath();
+/**
+ * Percorre o arquivo JSONL linha a linha, sem carregá-lo em memória.
+ * Linhas malformadas são registradas e descartadas, sem interromper o lote.
+ *
+ * @param {string} inputPath Caminho absoluto do arquivo de entrada.
+ */
+async function processFile(inputPath) {
+  const stream = fs.createReadStream(inputPath, { encoding: 'utf8' });
+  const rl = readline.createInterface({ input: stream, crlfDelay: Infinity });
 
-  console.log(`Arquivo de entrada validado: ${inputPath}`);
-  // Próxima etapa: leitura do arquivo linha a linha via streams/readline.
+  let lineNumber = 0;
+  let parsedCount = 0;
+  let skippedCount = 0;
+
+  for await (const line of rl) {
+    lineNumber += 1;
+
+    // Linhas em branco (inclusive a quebra final do arquivo) não são erro.
+    if (line.trim() === '') {
+      continue;
+    }
+
+    let club;
+
+    try {
+      club = JSON.parse(line);
+    } catch (error) {
+      skippedCount += 1;
+      console.warn(`[AVISO] Linha ${lineNumber} ignorada — JSON inválido: ${error.message}`);
+      continue;
+    }
+
+    // JSON.parse aceita escalares ("42", "null"): garante que a linha é um objeto.
+    if (club === null || typeof club !== 'object' || Array.isArray(club)) {
+      skippedCount += 1;
+      console.warn(`[AVISO] Linha ${lineNumber} ignorada — não é um objeto de clube.`);
+      continue;
+    }
+
+    parsedCount += 1;
+    console.log(club.club_id);
+  }
+
+  console.log(
+    `\nLeitura concluída: ${lineNumber} linha(s) lida(s), ` +
+      `${parsedCount} clube(s) processado(s), ${skippedCount} ignorada(s).`
+  );
 }
 
-main();
+async function main() {
+  const inputPath = resolveInputPath();
+
+  console.log(`Arquivo de entrada validado: ${inputPath}\n`);
+
+  await processFile(inputPath);
+  // Próxima etapa: filtro por campeonato (SERIE A / SERIE B).
+}
+
+main().catch((error) => {
+  // Falha irrecuperável de I/O: encerra sinalizando erro ao orquestrador.
+  console.error(`Erro fatal durante a leitura do arquivo: ${error.message}`);
+  process.exit(1);
+});
