@@ -59,8 +59,29 @@ function buildClubRow(rawClub) {
 }
 
 /**
- * Achata o array aninhado de jogadores nas linhas de `players.csv`,
- * propagando o id do clube como chave estrangeira.
+ * Monta uma linha de `players.csv`, propagando o id do clube como chave
+ * estrangeira.
+ *
+ * @param {Record<string, unknown>} rawPlayer Objeto de jogador vindo do JSONL.
+ * @param {string} clubId Id do clube já normalizado.
+ * @returns {Record<string, string>} Linha pronta para escrita.
+ */
+function buildPlayerRow(rawPlayer, clubId) {
+  return {
+    'Id do Clube': clubId,
+    'Id do Jogador': toText(rawPlayer.player_id),
+    Nome: toText(rawPlayer.name),
+    Idade: toText(rawPlayer.age),
+    Gols: toText(rawPlayer.goals),
+    'Data de Estreia': toIsoDate(rawPlayer.debut_date),
+    'Posição': toText(rawPlayer.position),
+    'Número da Camisa': toText(rawPlayer.shirt_number),
+  };
+}
+
+/**
+ * Achata o array aninhado de jogadores nas linhas de `players.csv`.
+ * Elementos que não sejam objetos são descartados.
  *
  * @param {Record<string, unknown>} rawClub Objeto de clube vindo do JSONL.
  * @param {string} clubId Id do clube já normalizado.
@@ -73,21 +94,21 @@ function buildPlayerRows(rawClub, clubId) {
 
   return rawClub.players
     .filter((player) => player !== null && typeof player === 'object' && !Array.isArray(player))
-    .map((player) => ({
-      'Id do Clube': clubId,
-      'Id do Jogador': toText(player.player_id),
-      Nome: toText(player.name),
-      Idade: toText(player.age),
-      Gols: toText(player.goals),
-      'Data de Estreia': toIsoDate(player.debut_date),
-      'Posição': toText(player.position),
-      'Número da Camisa': toText(player.shirt_number),
-    }));
+    .map((player) => buildPlayerRow(player, clubId));
 }
+
+// As colunas são derivadas dos próprios construtores, aplicados a um registro
+// vazio. Assim o cabeçalho não pode divergir das linhas nem ficar defasado, e
+// continua disponível mesmo quando o lote não produz nenhum registro.
+const CLUB_COLUMNS = Object.freeze(Object.keys(buildClubRow({})));
+const PLAYER_COLUMNS = Object.freeze(Object.keys(buildPlayerRow({}, '')));
 
 module.exports = {
   ALLOWED_CHAMPIONSHIPS,
+  CLUB_COLUMNS,
+  PLAYER_COLUMNS,
   buildClubRow,
+  buildPlayerRow,
   buildPlayerRows,
   isTargetChampionship,
   toCanonicalChampionship,

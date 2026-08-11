@@ -22,8 +22,9 @@ function createBatchReport() {
 
   return {
     /** Anuncia o início do processamento. */
-    start(inputPath) {
-      console.log(`Arquivo de entrada validado: ${inputPath}\n`);
+    start(inputPath, outputDir) {
+      console.log(`Entrada: ${inputPath}`);
+      console.log(`Saída:   ${outputDir}\n`);
     },
 
     /** Contabiliza uma linha lida, inclusive linhas em branco. */
@@ -43,25 +44,19 @@ function createBatchReport() {
     },
 
     /** Registra um clube aproveitado e seus jogadores. */
-    clubProcessed(clubRow, playerRows) {
+    clubProcessed(playerRowCount) {
       processedCount += 1;
-      playerCount += playerRows.length;
-
-      // Rastro temporário de conferência: sai quando a escrita dos CSVs entrar.
-      console.log(
-        `${clubRow['Id do Clube']} | ${clubRow.Nome} | ${clubRow.Campeonato} | ` +
-          `fundação: "${clubRow['Data de Fundação']}" | cores: "${clubRow.Cores}" | ` +
-          `apelido: "${clubRow.Apelido}" | ${playerRows.length} jogador(es)`
-      );
+      playerCount += playerRowCount;
     },
 
     /** Imprime o resumo final do lote. */
     printSummary() {
-      console.log(
-        `\nLeitura concluída: ${lineCount} linha(s) lida(s), ` +
-          `${processedCount} clube(s) processado(s), ${playerCount} jogador(es), ` +
-          `${filteredCount} fora do filtro, ${skippedCount} ignorada(s) por erro.`
-      );
+      console.log('Processamento concluído.');
+      console.log(`  Linhas lidas:        ${lineCount}`);
+      console.log(`  Clubes gravados:     ${processedCount}`);
+      console.log(`  Jogadores gravados:  ${playerCount}`);
+      console.log(`  Fora do filtro:      ${filteredCount}`);
+      console.log(`  Ignoradas por erro:  ${skippedCount}`);
     },
   };
 }
